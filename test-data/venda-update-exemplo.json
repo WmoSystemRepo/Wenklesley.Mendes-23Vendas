@@ -1,0 +1,19 @@
+{
+  "itensParaAdicionar": [
+    {
+      "produtoId": "00000000-0000-0000-0000-000000000006",
+      "produtoNome": "Produto Novo",
+      "quantidade": 2,
+      "valorUnitario": 150.00
+    }
+  ],
+  "itensParaRemover": [],
+  "itensParaAtualizar": [
+    {
+      "itemId": "SUBSTITUIR_PELO_ID_DO_ITEM",
+      "quantidade": 10,
+      "valorUnitario": 100.00
+    }
+  ]
+}
+

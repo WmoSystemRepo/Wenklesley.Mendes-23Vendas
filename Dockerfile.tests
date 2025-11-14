@@ -1,0 +1,98 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# Copiar arquivos de projeto para restore
+COPY ["src/Api/Api.csproj", "src/Api/"]
+COPY ["src/Application/Application.csproj", "src/Application/"]
+COPY ["src/Domain/Domain.csproj", "src/Domain/"]
+COPY ["src/Infra/Infra.csproj", "src/Infra/"]
+COPY ["src/Infra.IoC/Infra.IoC.csproj", "src/Infra.IoC/"]
+COPY ["tests/UnitTests/UnitTests.csproj", "tests/UnitTests/"]
+COPY ["tests/IntegrationTests/IntegrationTests.csproj", "tests/IntegrationTests/"]
+COPY ["tests/BddTests/BddTests.csproj", "tests/BddTests/"]
+
+# Restore de todos os projetos
+RUN dotnet restore "tests/UnitTests/UnitTests.csproj" && \
+    dotnet restore "tests/IntegrationTests/IntegrationTests.csproj" && \
+    dotnet restore "tests/BddTests/BddTests.csproj"
+
+# Copiar código fonte
+COPY src/ src/
+COPY tests/ tests/
+COPY global.json ./
+
+# Build de todos os projetos de teste
+WORKDIR /src
+RUN dotnet build "tests/UnitTests/UnitTests.csproj" -c Release && \
+    dotnet build "tests/IntegrationTests/IntegrationTests.csproj" -c Release && \
+    dotnet build "tests/BddTests/BddTests.csproj" -c Release
+
+FROM build AS test
+WORKDIR /src
+
+# Script para executar todos os testes em sequência
+RUN echo '#!/bin/bash\n\
+set -e\n\
+echo "========================================"\n\
+echo "  EXECUTANDO TODOS OS TESTES - 123VENDAS"\n\
+echo "========================================"\n\
+echo ""\n\
+\n\
+echo "========================================"\n\
+echo "  1. TESTES UNITÁRIOS"\n\
+echo "========================================"\n\
+cd tests/UnitTests\n\
+dotnet test UnitTests.csproj --logger "trx;LogFileName=unit-results.trx" --results-directory /test-results --verbosity normal\n\
+UNIT_EXIT=$?\n\
+echo ""\n\
+\n\
+echo "========================================"\n\
+echo "  2. TESTES DE INTEGRAÇÃO"\n\
+echo "========================================"\n\
+cd ../IntegrationTests\n\
+dotnet test IntegrationTests.csproj --logger "trx;LogFileName=integration-results.trx" --results-directory /test-results --verbosity normal\n\
+INTEGRATION_EXIT=$?\n\
+echo ""\n\
+\n\
+echo "========================================"\n\
+echo "  3. TESTES BDD"\n\
+echo "========================================"\n\
+cd ../BddTests\n\
+dotnet test BddTests.csproj --logger "trx;LogFileName=bdd-results.trx" --results-directory /test-results --verbosity normal\n\
+BDD_EXIT=$?\n\
+echo ""\n\
+\n\
+echo "========================================"\n\
+echo "  RESUMO DOS TESTES"\n\
+echo "========================================"\n\
+if [ $UNIT_EXIT -eq 0 ]; then\n\
+    echo "✓ Testes Unitários: SUCESSO"\n\
+else\n\
+    echo "✗ Testes Unitários: FALHOU"\n\
+fi\n\
+if [ $INTEGRATION_EXIT -eq 0 ]; then\n\
+    echo "✓ Testes de Integração: SUCESSO"\n\
+else\n\
+    echo "✗ Testes de Integração: FALHOU"\n\
+fi\n\
+if [ $BDD_EXIT -eq 0 ]; then\n\
+    echo "✓ Testes BDD: SUCESSO"\n\
+else\n\
+    echo "✗ Testes BDD: FALHOU"\n\
+fi\n\
+echo ""\n\
+\n\
+if [ $UNIT_EXIT -eq 0 ] && [ $INTEGRATION_EXIT -eq 0 ] && [ $BDD_EXIT -eq 0 ]; then\n\
+    echo "========================================"\n\
+    echo "  ✓ TODOS OS TESTES PASSARAM!"\n\
+    echo "========================================"\n\
+    exit 0\n\
+else\n\
+    echo "========================================"\n\
+    echo "  ✗ ALGUNS TESTES FALHARAM"\n\
+    echo "========================================"\n\
+    exit 1\n\
+fi' > /run-all-tests.sh && chmod +x /run-all-tests.sh
+
+ENTRYPOINT ["/run-all-tests.sh"]
+

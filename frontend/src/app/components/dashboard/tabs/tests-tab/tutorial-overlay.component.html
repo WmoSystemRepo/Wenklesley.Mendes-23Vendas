@@ -1,0 +1,49 @@
+<div class="tutorial-overlay" (click)="close()">
+  <div class="tutorial-tooltip" 
+       [style.top.px]="tooltipPosition.top"
+       [style.left.px]="tooltipPosition.left"
+       (click)="$event.stopPropagation()">
+    <div class="tooltip-header">
+      <h3>{{ currentStep?.title }}</h3>
+      <button mat-icon-button (click)="skipTutorial()" class="close-btn">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    
+    <div class="tooltip-content">
+      <p>{{ currentStep?.description }}</p>
+    </div>
+    
+    <div class="tooltip-footer">
+      <div class="progress-info">
+        Passo {{ currentStepIndex + 1 }} de {{ totalSteps }}
+      </div>
+      
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="getProgress()"></div>
+      </div>
+      
+      <div class="tooltip-actions">
+        <button mat-button 
+                (click)="previousStep()" 
+                [disabled]="currentStepIndex === 0">
+          <mat-icon>arrow_back</mat-icon>
+          Anterior
+        </button>
+        
+        <button mat-button 
+                (click)="skipTutorial()">
+          Pular
+        </button>
+        
+        <button mat-raised-button 
+                color="primary"
+                (click)="currentStepIndex === totalSteps - 1 ? skipTutorial() : nextStep()">
+          {{ currentStepIndex === totalSteps - 1 ? 'Finalizar' : 'Próximo' }}
+          <mat-icon>{{ currentStepIndex === totalSteps - 1 ? 'check' : 'arrow_forward' }}</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

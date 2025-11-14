@@ -1,0 +1,96 @@
+<div class="api-simulator-container">
+  <div class="simulator-layout">
+    <mat-card class="request-panel">
+      <mat-card-header>
+        <mat-card-title>Requisição</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="request-controls">
+          <mat-form-field appearance="outline">
+            <mat-label>Método</mat-label>
+            <mat-select [(value)]="selectedMethod">
+              <mat-option value="GET">GET</mat-option>
+              <mat-option value="POST">POST</mat-option>
+              <mat-option value="PUT">PUT</mat-option>
+              <mat-option value="DELETE">DELETE</mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <mat-form-field appearance="outline" class="endpoint-field">
+            <mat-label>Endpoint</mat-label>
+            <mat-select [(value)]="selectedEndpoint" (selectionChange)="onEndpointSelect()">
+              <mat-option *ngFor="let endpoint of endpoints" [value]="endpoint.path">
+                {{ endpoint.method }} {{ endpoint.path }} - {{ endpoint.description }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          <button mat-raised-button color="primary" (click)="executeRequest()" [disabled]="loading">
+            <mat-icon>send</mat-icon>
+            {{ loading ? 'Enviando...' : 'Enviar' }}
+          </button>
+        </div>
+        
+        <mat-form-field appearance="outline" class="body-field">
+          <mat-label>Body (JSON)</mat-label>
+          <textarea matInput 
+                    [(ngModel)]="requestBody" 
+                    rows="15"
+                    placeholder='{"key": "value"}'></textarea>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="response-panel">
+      <mat-card-header>
+        <mat-card-title>Resposta</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="response" class="response-info">
+          <div class="response-status">
+            <span [class]="'status-badge ' + getStatusClass(response.status)">
+              {{ response.status }} {{ response.statusText }}
+            </span>
+            <span class="response-duration">{{ response.duration }}ms</span>
+          </div>
+          
+          <div class="response-body">
+            <pre>{{ formatJson(response.body) }}</pre>
+          </div>
+        </div>
+        
+        <div *ngIf="!response" class="empty-response">
+          <mat-icon>info</mat-icon>
+          <p>Execute uma requisição para ver a resposta</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <mat-card class="history-panel">
+    <mat-card-header>
+      <mat-card-title>Histórico de Requisições</mat-card-title>
+      <button mat-icon-button (click)="clearHistory()" matTooltip="Limpar histórico">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="history-list">
+        <div *ngFor="let item of history; trackBy: trackByHistoryId" 
+             class="history-item"
+             (click)="loadHistoryItem(item)">
+          <div class="history-method">{{ item.request.method }}</div>
+          <div class="history-url">{{ item.request.url }}</div>
+          <div [class]="'history-status ' + getStatusClass(item.response.status)">
+            {{ item.response.status }}
+          </div>
+          <div class="history-time">{{ item.timestamp | date:'HH:mm:ss' }}</div>
+        </div>
+        
+        <div *ngIf="history.length === 0" class="empty-history">
+          <p>Nenhuma requisição no histórico</p>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

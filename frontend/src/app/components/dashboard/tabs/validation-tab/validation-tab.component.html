@@ -1,0 +1,54 @@
+<div class="validation-container">
+  <mat-card class="score-card">
+    <mat-card-content>
+      <div class="score-circle">
+        <div class="score-value">{{ getOverallScore() }}%</div>
+        <div class="score-label">Conformidade</div>
+      </div>
+      <div class="score-details">
+        <div class="score-item">
+          <mat-icon class="status-valid">check_circle</mat-icon>
+          <span>{{ getValidCount() }} Válidos</span>
+        </div>
+        <div class="score-item">
+          <mat-icon class="status-warning">warning</mat-icon>
+          <span>{{ getWarningCount() }} Avisos</span>
+        </div>
+        <div class="score-item">
+          <mat-icon class="status-invalid">error</mat-icon>
+          <span>{{ getInvalidCount() }} Inválidos</span>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="requirements-list">
+    <mat-card *ngFor="let req of requirements" class="requirement-card">
+      <mat-card-content>
+        <div class="requirement-header">
+          <div class="requirement-info">
+            <mat-icon [class]="'status-icon ' + getStatusClass(req.status)">
+              {{ getStatusIcon(req.status) }}
+            </mat-icon>
+            <div>
+              <h3>{{ req.name }}</h3>
+              <p class="requirement-description">{{ req.description }}</p>
+            </div>
+          </div>
+          <mat-chip [class]="'status-chip ' + getStatusClass(req.status)">
+            {{ req.status === 'valid' ? 'Válido' : req.status === 'warning' ? 'Aviso' : 'Inválido' }}
+          </mat-chip>
+        </div>
+        
+        <div class="requirement-details">
+          <p><strong>Detalhes:</strong> {{ req.details }}</p>
+          <a *ngIf="req.link" [href]="req.link" target="_blank" class="requirement-link">
+            <mat-icon>open_in_new</mat-icon>
+            Ver documentação
+          </a>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+

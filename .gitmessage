@@ -1,0 +1,31 @@
+# <tipo>(<escopo>): <descrição curta>
+
+# [corpo opcional - explicação mais detalhada]
+
+# [rodapé opcional - referências a issues, breaking changes, etc.]
+
+# Tipos de commit:
+#   feat     - Nova funcionalidade
+#   fix      - Correção de bug
+#   docs     - Documentação
+#   style    - Formatação (não afeta código)
+#   refactor - Refatoração
+#   test     - Testes
+#   chore    - Tarefas de manutenção
+#   perf     - Melhoria de performance
+#   ci       - CI/CD
+
+# Escopos comuns:
+#   venda    - Funcionalidades de venda
+#   desconto - Regras de desconto
+#   api      - Camada de API
+#   domain   - Camada de domínio
+#   infra    - Infraestrutura
+#   test     - Testes
+
+# Exemplos:
+#   feat(venda): adiciona endpoint de criação de venda
+#   fix(desconto): corrige cálculo para 4 itens
+#   docs(readme): atualiza instruções de execução
+#   test(venda): adiciona testes de validação
+

@@ -1,0 +1,23 @@
+{
+  "commitsValidos": [
+    "feat: adicionar nova funcionalidade",
+    "fix: corrigir bug na validação",
+    "docs: atualizar documentação",
+    "test: adicionar testes unitários",
+    "refactor: melhorar estrutura do código",
+    "chore: atualizar dependências",
+    "feat(api): adicionar endpoint de vendas",
+    "fix(frontend): corrigir erro de renderização",
+    "docs(readme): adicionar instruções de instalação"
+  ],
+  "commitsInvalidos": [
+    "mensagem inválida",
+    "adicionar funcionalidade",
+    "fix bug",
+    "atualização",
+    "mudanças diversas",
+    "WIP",
+    "teste"
+  ]
+}
+

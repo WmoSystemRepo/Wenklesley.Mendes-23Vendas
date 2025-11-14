@@ -1,0 +1,82 @@
+services:
+  sqlserver-test:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: 123vendas-sqlserver-test
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Test@Passw0rd123
+      - MSSQL_PID=Developer
+    ports:
+      - "1434:1433"
+    volumes:
+      - sqlserver_test_data:/var/opt/mssql
+    networks:
+      - test-network
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P Test@Passw0rd123 -Q "SELECT 1" -C || exit 1
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  unit-tests:
+    build:
+      context: .
+      dockerfile: tests/UnitTests/Dockerfile
+    container_name: 123vendas-unit-tests
+    networks:
+      - test-network
+    volumes:
+      - ./test-results:/test-results
+
+  integration-tests:
+    build:
+      context: .
+      dockerfile: tests/IntegrationTests/Dockerfile
+    container_name: 123vendas-integration-tests
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=sqlserver-test,1433;Database=123Vendas_Test;User Id=sa;Password=Test@Passw0rd123;TrustServerCertificate=True;MultipleActiveResultSets=true;
+    networks:
+      - test-network
+    depends_on:
+      sqlserver-test:
+        condition: service_healthy
+    volumes:
+      - ./test-results:/test-results
+
+  bdd-tests:
+    build:
+      context: .
+      dockerfile: tests/BddTests/Dockerfile
+    container_name: 123vendas-bdd-tests
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=sqlserver-test,1433;Database=123Vendas_Test;User Id=sa;Password=Test@Passw0rd123;TrustServerCertificate=True;MultipleActiveResultSets=true;
+    networks:
+      - test-network
+    depends_on:
+      sqlserver-test:
+        condition: service_healthy
+    volumes:
+      - ./test-results:/test-results
+
+  all-tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.tests
+    container_name: 123vendas-all-tests
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=sqlserver-test,1433;Database=123Vendas_Test;User Id=sa;Password=Test@Passw0rd123;TrustServerCertificate=True;MultipleActiveResultSets=true;
+    networks:
+      - test-network
+    depends_on:
+      sqlserver-test:
+        condition: service_healthy
+    volumes:
+      - ./test-results:/test-results
+
+networks:
+  test-network:
+    driver: bridge
+
+volumes:
+  sqlserver_test_data:
+

@@ -1,0 +1,51 @@
+<div class="logs-container-wrapper">
+  <div class="logs-controls">
+    <mat-form-field appearance="outline">
+      <mat-label>Nível</mat-label>
+      <mat-select [(value)]="selectedLevel" (selectionChange)="onLevelChange()">
+        <mat-option value="all">Todos</mat-option>
+        <mat-option value="Information">Information</mat-option>
+        <mat-option value="Warning">Warning</mat-option>
+        <mat-option value="Error">Error</mat-option>
+        <mat-option value="Debug">Debug</mat-option>
+        <mat-option value="Trace">Trace</mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Buscar</mat-label>
+      <input matInput [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()" placeholder="Buscar em logs...">
+      <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+    
+    <mat-slide-toggle [(ngModel)]="autoScroll">Auto-scroll</mat-slide-toggle>
+    
+    <button mat-raised-button color="warn" (click)="clearLogs()">
+      <mat-icon>delete</mat-icon>
+      Limpar
+    </button>
+  </div>
+
+  <div class="logs-container">
+    <div *ngFor="let log of filteredLogs; trackBy: trackByLogId" 
+         [class]="'log-entry ' + getLevelClass(log.level)">
+      <div class="log-header">
+        <span class="log-timestamp">{{ log.timestamp | date:'HH:mm:ss.SSS' }}</span>
+        <span [class]="'log-level ' + getLevelClass(log.level)">{{ log.level }}</span>
+      </div>
+      <div class="log-message">{{ log.message }}</div>
+      <div *ngIf="log.properties" class="log-properties">
+        <pre>{{ formatJson(log.properties) }}</pre>
+      </div>
+      <div *ngIf="log.exception" class="log-exception">
+        <pre>{{ log.exception }}</pre>
+      </div>
+    </div>
+    
+    <div *ngIf="filteredLogs.length === 0" class="empty-state">
+      <mat-icon>info</mat-icon>
+      <p>Nenhum log encontrado</p>
+    </div>
+  </div>
+</div>
+

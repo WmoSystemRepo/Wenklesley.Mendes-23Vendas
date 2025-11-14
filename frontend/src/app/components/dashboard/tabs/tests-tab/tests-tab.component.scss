@@ -1,0 +1,179 @@
+@import 'styles/variables';
+@import 'styles/mixins';
+
+.tests-container {
+  padding: $spacing-md;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+}
+
+.stat-card {
+  @include card;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  
+  &.success {
+    border-left: 4px solid $test-passed;
+  }
+  
+  &.failed {
+    border-left: 4px solid $test-failed;
+  }
+  
+  &.clickable {
+    cursor: pointer;
+    
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+  }
+  
+  .stat-value {
+    font-size: 32px;
+    font-weight: 500;
+    margin-bottom: $spacing-xs;
+  }
+  
+  .stat-label {
+    font-size: 14px;
+    color: #666;
+  }
+}
+
+.actions-bar {
+  @include flex-between;
+  margin-bottom: $spacing-md;
+  gap: $spacing-md;
+  
+  mat-form-field {
+    flex: 0 0 200px;
+  }
+  
+  .action-buttons {
+    @include flex-center;
+    gap: $spacing-sm;
+  }
+}
+
+.tests-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.test-card {
+  @include card;
+  transition: transform $transition-fast, box-shadow $transition-fast;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+  }
+  
+  &.clickable {
+    cursor: pointer;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: $shadow-lg;
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+  
+  .test-header {
+    @include flex-between;
+    margin-bottom: $spacing-sm;
+  }
+  
+  .test-info {
+    @include flex-center;
+    gap: $spacing-sm;
+    flex: 1;
+    
+    .test-name {
+      font-weight: 500;
+      flex: 1;
+    }
+  }
+  
+  .test-meta {
+    @include flex-center;
+    gap: $spacing-md;
+    font-size: 12px;
+    color: #666;
+    
+    .info-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      color: $primary-color;
+      cursor: help;
+    }
+  }
+  
+  .test-message {
+    margin-top: $spacing-sm;
+    padding: $spacing-sm;
+    background: #f5f5f5;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+}
+
+.status-passed {
+  color: $test-passed;
+}
+
+.status-failed {
+  color: $test-failed;
+}
+
+.status-running {
+  color: $test-running;
+  animation: pulse 2s infinite;
+}
+
+.status-pending {
+  color: $test-pending;
+}
+
+.chip-unit {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.chip-integration {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.chip-bdd {
+  background-color: #e8f5e9;
+  color: #388e3c;
+}
+
+.empty-state {
+  @include flex-center;
+  flex-direction: column;
+  padding: $spacing-xl;
+  color: #999;
+  
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    margin-bottom: $spacing-md;
+  }
+}
+

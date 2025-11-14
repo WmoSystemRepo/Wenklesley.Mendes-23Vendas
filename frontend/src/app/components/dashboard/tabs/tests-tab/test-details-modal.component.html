@@ -1,0 +1,86 @@
+<div class="test-details-modal">
+  <div class="modal-header">
+    <h2 mat-dialog-title>
+      <mat-icon [class]="'type-icon type-' + (testDetails?.type || 'unknown')">
+        {{ testDetails?.type === 'unit' ? 'code' : testDetails?.type === 'integration' ? 'link' : 'description' }}
+      </mat-icon>
+      Detalhes do Teste
+    </h2>
+    <button mat-icon-button (click)="close()" aria-label="Fechar">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <mat-dialog-content *ngIf="loading" class="loading-content">
+    <div class="loading-spinner">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Carregando detalhes...</p>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-content *ngIf="!loading && testDetails" class="content">
+    <div class="test-info-section">
+      <h3>{{ testDetails.testName }}</h3>
+      <div class="test-meta">
+        <mat-chip [color]="getTypeColor(testDetails.type)">
+          {{ getTypeLabel(testDetails.type) }}
+        </mat-chip>
+        <span class="file-path">
+          <mat-icon>description</mat-icon>
+          {{ testDetails.file }}
+        </span>
+      </div>
+      <p class="description">{{ testDetails.description }}</p>
+    </div>
+
+    <div class="scenarios-section">
+      <h4>
+        <mat-icon>list</mat-icon>
+        Cenários Testados ({{ testDetails.scenarios?.length || 0 }})
+      </h4>
+      <div *ngIf="testDetails.scenarios && testDetails.scenarios.length > 0" class="scenarios-list">
+        <mat-card *ngFor="let scenario of testDetails.scenarios" class="scenario-card">
+          <mat-card-content>
+            <div class="scenario-header">
+              <mat-icon class="scenario-icon">check_circle</mat-icon>
+              <span class="scenario-id">{{ scenario.id }}</span>
+            </div>
+            <p class="scenario-description">{{ scenario.description }}</p>
+            <div class="expected-result">
+              <strong>Resultado Esperado:</strong>
+              <span>{{ scenario.expectedResult }}</span>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div *ngIf="!testDetails.scenarios || testDetails.scenarios.length === 0" class="no-scenarios">
+        <mat-icon>info</mat-icon>
+        <p>Nenhum cenário disponível para este teste.</p>
+      </div>
+    </div>
+
+    <div *ngIf="testDetails.relatedTests && testDetails.relatedTests.length > 0" class="related-tests-section">
+      <h4>
+        <mat-icon>link</mat-icon>
+        Testes Relacionados
+      </h4>
+      <div class="related-tests-list">
+        <mat-chip *ngFor="let relatedTest of testDetails.relatedTests">
+          {{ relatedTest }}
+        </mat-chip>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-content *ngIf="!loading && !testDetails" class="no-data-content">
+    <div class="no-data">
+      <mat-icon>info</mat-icon>
+      <p>Detalhes não disponíveis para este teste.</p>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="close()">Fechar</button>
+  </mat-dialog-actions>
+</div>
+

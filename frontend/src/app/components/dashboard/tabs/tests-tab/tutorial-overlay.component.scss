@@ -1,0 +1,166 @@
+@import 'styles/variables';
+@import 'styles/mixins';
+
+.tutorial-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 10000;
+  cursor: pointer;
+}
+
+// Highlight no elemento atual
+::ng-deep .tutorial-highlight {
+  position: relative;
+  z-index: 10001 !important;
+  box-shadow: 0 0 0 4px rgba(33, 150, 243, 0.5),
+              0 0 20px rgba(33, 150, 243, 0.8),
+              0 0 40px rgba(33, 150, 243, 0.4) !important;
+  border-radius: 4px;
+  animation: pulse-highlight 2s infinite;
+}
+
+@keyframes pulse-highlight {
+  0%, 100% {
+    box-shadow: 0 0 0 4px rgba(33, 150, 243, 0.5),
+                0 0 20px rgba(33, 150, 243, 0.8),
+                0 0 40px rgba(33, 150, 243, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(33, 150, 243, 0.7),
+                0 0 30px rgba(33, 150, 243, 1),
+                0 0 60px rgba(33, 150, 243, 0.6);
+  }
+}
+
+.tutorial-tooltip {
+  position: fixed;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  min-width: 350px;
+  max-width: 500px;
+  z-index: 10002;
+  cursor: default;
+  animation: slideIn 0.3s ease-out;
+  
+  // Ajustar posicionamento baseado na posição
+  &[style*="bottom"] {
+    transform: translate(-50%, 0);
+  }
+  
+  &[style*="top"] {
+    transform: translate(-50%, -100%);
+  }
+  
+  &[style*="left"] {
+    transform: translate(-100%, -50%);
+  }
+  
+  &[style*="right"] {
+    transform: translate(0, -50%);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.tooltip-header {
+  @include flex-between;
+  padding: $spacing-md;
+  border-bottom: 1px solid #e0e0e0;
+  
+  h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .close-btn {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.tooltip-content {
+  padding: $spacing-md;
+  
+  p {
+    margin: 0;
+    color: #555;
+    line-height: 1.6;
+    font-size: 14px;
+  }
+}
+
+.tooltip-footer {
+  padding: $spacing-md;
+  border-top: 1px solid #e0e0e0;
+  background-color: #f9f9f9;
+}
+
+.progress-info {
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: $spacing-sm;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background-color: #e0e0e0;
+  border-radius: 2px;
+  margin-bottom: $spacing-md;
+  overflow: hidden;
+  
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, $primary-color, lighten($primary-color, 10%));
+    transition: width 0.3s ease;
+    border-radius: 2px;
+  }
+}
+
+.tooltip-actions {
+  @include flex-between;
+  gap: $spacing-sm;
+  
+  button {
+    flex: 1;
+    
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+// Ajustes de posicionamento baseado na posição do tooltip
+.tutorial-tooltip[style*="top"] {
+  // Ajustar transform baseado na posição
+}
+
+// Responsividade
+@media (max-width: $breakpoint-sm) {
+  .tutorial-tooltip {
+    min-width: 90vw;
+    max-width: 90vw;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+}
+

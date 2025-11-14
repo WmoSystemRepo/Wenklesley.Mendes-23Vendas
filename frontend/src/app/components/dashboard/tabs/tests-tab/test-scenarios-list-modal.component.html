@@ -1,0 +1,77 @@
+<div class="scenarios-list-modal">
+  <div class="modal-header">
+    <h2 mat-dialog-title>
+      <mat-icon>list</mat-icon>
+      {{ data.title }}
+    </h2>
+    <button mat-icon-button (click)="close()" aria-label="Fechar">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <mat-dialog-content *ngIf="loading" class="loading-content">
+    <div class="loading-spinner">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Carregando cenários...</p>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-content *ngIf="!loading" class="content">
+    <div class="summary">
+      <mat-chip>
+        <mat-icon>info</mat-icon>
+        {{ totalScenarios }} cenários em {{ data.tests.length }} {{ data.tests.length === 1 ? 'teste' : 'testes' }}
+      </mat-chip>
+    </div>
+
+    <div class="tests-list">
+      <mat-expansion-panel *ngFor="let item of testsWithScenarios; let i = index" class="test-panel">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon [class]="'status-' + item.test.status">
+              {{ item.test.status === 'passed' ? 'check_circle' : item.test.status === 'failed' ? 'error' : 'help' }}
+            </mat-icon>
+            <span>{{ item.test.name }}</span>
+          </mat-panel-title>
+          <mat-panel-description>
+            <mat-chip [color]="getTypeColor(item.test.type)">
+              {{ getTypeLabel(item.test.type) }}
+            </mat-chip>
+            <span *ngIf="item.details?.scenarios">
+              {{ item.details?.scenarios?.length || 0 }} {{ (item.details?.scenarios?.length || 0) === 1 ? 'cenário' : 'cenários' }}
+            </span>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div *ngIf="item.details" class="test-details">
+          <p class="description">{{ item.details.description }}</p>
+          <div class="scenarios-list">
+            <mat-card *ngFor="let scenario of item.details.scenarios" class="scenario-card">
+              <mat-card-content>
+                <div class="scenario-header">
+                  <mat-icon class="scenario-icon">check_circle</mat-icon>
+                  <span class="scenario-id">{{ scenario.id }}</span>
+                </div>
+                <p class="scenario-description">{{ scenario.description }}</p>
+                <div class="expected-result">
+                  <strong>Resultado Esperado:</strong>
+                  <span>{{ scenario.expectedResult }}</span>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+
+        <div *ngIf="!item.details" class="no-details">
+          <mat-icon>info</mat-icon>
+          <p>Cenários não disponíveis para este teste.</p>
+        </div>
+      </mat-expansion-panel>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="close()">Fechar</button>
+  </mat-dialog-actions>
+</div>
+

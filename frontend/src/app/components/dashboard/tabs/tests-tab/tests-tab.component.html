@@ -1,0 +1,94 @@
+<div class="tests-container">
+  <div class="stats-grid">
+    <mat-card class="stat-card clickable" 
+              (click)="openFilteredScenariosModal('all')"
+              matTooltip="Clique para ver todos os cenários">
+      <mat-card-content>
+        <div class="stat-value">{{ stats.total }}</div>
+        <div class="stat-label">Total de Testes</div>
+      </mat-card-content>
+    </mat-card>
+    
+    <mat-card class="stat-card success clickable"
+              (click)="openFilteredScenariosModal('passed')"
+              matTooltip="Clique para ver cenários dos testes que passaram">
+      <mat-card-content>
+        <div class="stat-value">{{ stats.passed }}</div>
+        <div class="stat-label">Passou</div>
+      </mat-card-content>
+    </mat-card>
+    
+    <mat-card class="stat-card failed clickable"
+              (click)="openFilteredScenariosModal('failed')"
+              matTooltip="Clique para ver cenários dos testes que falharam">
+      <mat-card-content>
+        <div class="stat-value">{{ stats.failed }}</div>
+        <div class="stat-label">Falhou</div>
+      </mat-card-content>
+    </mat-card>
+    
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-value">{{ stats.successRate }}%</div>
+        <div class="stat-label">Taxa de Sucesso</div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="actions-bar">
+    <mat-form-field appearance="outline">
+      <mat-label>Filtrar por Tipo</mat-label>
+      <mat-select [(value)]="selectedFilter" (selectionChange)="updateStats()">
+        <mat-option value="all">Todos</mat-option>
+        <mat-option value="unit">Unitários</mat-option>
+        <mat-option value="integration">Integração</mat-option>
+        <mat-option value="bdd">BDD</mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    <div class="action-buttons">
+      <button mat-icon-button (click)="startTutorial()" matTooltip="Iniciar tutorial">
+        <mat-icon>help_outline</mat-icon>
+      </button>
+      
+      <button mat-raised-button color="primary" (click)="runTests()">
+        <mat-icon>play_arrow</mat-icon>
+        Executar Testes
+      </button>
+      
+      <button mat-raised-button color="warn" (click)="clearTests()">
+        <mat-icon>delete_sweep</mat-icon>
+        Limpar Testes
+      </button>
+    </div>
+  </div>
+
+  <div class="tests-list">
+    <mat-card *ngFor="let test of getFilteredTests(); trackBy: trackByTestId" 
+              class="test-card clickable"
+              (click)="openTestDetails(test)">
+      <mat-card-content>
+        <div class="test-header">
+          <div class="test-info">
+            <mat-icon [class]="getStatusClass(test.status)">
+              {{ getStatusIcon(test.status) }}
+            </mat-icon>
+            <span class="test-name">{{ test.name }}</span>
+            <mat-chip [class]="'chip-' + test.type">{{ test.type }}</mat-chip>
+          </div>
+          <div class="test-meta">
+            <span *ngIf="test.duration" class="duration">{{ test.duration }}ms</span>
+            <span class="timestamp">{{ test.timestamp | date:'HH:mm:ss' }}</span>
+            <mat-icon class="info-icon" matTooltip="Clique para ver detalhes">info</mat-icon>
+          </div>
+        </div>
+        <div *ngIf="test.message" class="test-message">{{ test.message }}</div>
+      </mat-card-content>
+    </mat-card>
+    
+    <div *ngIf="getFilteredTests().length === 0" class="empty-state">
+      <mat-icon>info</mat-icon>
+      <p>Nenhum teste encontrado</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin card {
+  background: white;
+  border-radius: 8px;
+  padding: $spacing-md;
+  box-shadow: $shadow-md;
+  transition: box-shadow $transition-normal;
+  
+  &:hover {
+    box-shadow: $shadow-lg;
+  }
+}
+
+@mixin responsive($breakpoint) {
+  @if $breakpoint == sm {
+    @media (min-width: $breakpoint-sm) { @content; }
+  }
+  @if $breakpoint == md {
+    @media (min-width: $breakpoint-md) { @content; }
+  }
+  @if $breakpoint == lg {
+    @media (min-width: $breakpoint-lg) { @content; }
+  }
+  @if $breakpoint == xl {
+    @media (min-width: $breakpoint-xl) { @content; }
+  }
+}
+
+@mixin status-badge($color) {
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: 4px;
+  background-color: rgba($color, 0.1);
+  color: $color;
+  font-size: 12px;
+  font-weight: 500;
+}
+

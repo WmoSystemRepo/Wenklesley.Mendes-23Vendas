@@ -1,0 +1,153 @@
+@import 'styles/variables';
+@import 'styles/mixins';
+
+.validation-container {
+  padding: $spacing-md;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.score-card {
+  @include card;
+  margin-bottom: $spacing-lg;
+  
+  mat-card-content {
+    @include flex-between;
+    align-items: center;
+    gap: $spacing-xl;
+    
+    @include responsive(sm) {
+      flex-direction: column;
+    }
+  }
+  
+  .score-circle {
+    @include flex-center;
+    flex-direction: column;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    
+    .score-value {
+      font-size: 48px;
+      font-weight: 500;
+    }
+    
+    .score-label {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+  }
+  
+  .score-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    
+    .score-item {
+      @include flex-center;
+      gap: $spacing-sm;
+      justify-content: flex-start;
+      font-size: 16px;
+    }
+  }
+}
+
+.requirements-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.requirement-card {
+  @include card;
+  transition: transform $transition-fast;
+  
+  &:hover {
+    transform: translateY(-2px);
+  }
+  
+  .requirement-header {
+    @include flex-between;
+    margin-bottom: $spacing-md;
+    
+    .requirement-info {
+      @include flex-center;
+      gap: $spacing-md;
+      flex: 1;
+      
+      .status-icon {
+        font-size: 32px;
+        width: 32px;
+        height: 32px;
+      }
+      
+      h3 {
+        margin: 0 0 $spacing-xs 0;
+        font-size: 18px;
+        color: #333;
+      }
+      
+      .requirement-description {
+        margin: 0;
+        color: #666;
+        font-size: 14px;
+      }
+    }
+  }
+  
+  .requirement-details {
+    padding-top: $spacing-md;
+    border-top: 1px solid #eee;
+    
+    p {
+      margin-bottom: $spacing-sm;
+      color: #555;
+    }
+    
+    .requirement-link {
+      @include flex-center;
+      gap: $spacing-xs;
+      color: $primary-color;
+      text-decoration: none;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.status-valid {
+  color: $success-color;
+}
+
+.status-warning {
+  color: $warn-color;
+}
+
+.status-invalid {
+  color: $warn-color;
+}
+
+.status-chip.status-valid {
+  background-color: rgba(76, 175, 80, 0.1);
+  color: $success-color;
+}
+
+.status-chip.status-warning {
+  background-color: rgba(255, 152, 0, 0.1);
+  color: $warn-color;
+}
+
+.status-chip.status-invalid {
+  background-color: rgba(244, 67, 54, 0.1);
+  color: $warn-color;
+}
+

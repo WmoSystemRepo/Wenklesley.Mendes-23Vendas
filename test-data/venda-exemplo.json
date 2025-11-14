@@ -1,0 +1,16 @@
+{
+  "numeroVenda": "V001",
+  "clienteId": "00000000-0000-0000-0000-000000000001",
+  "clienteNome": "Cliente Teste",
+  "filialId": "00000000-0000-0000-0000-000000000002",
+  "filialNome": "Filial Teste",
+  "itens": [
+    {
+      "produtoId": "00000000-0000-0000-0000-000000000003",
+      "produtoNome": "Produto Teste",
+      "quantidade": 5,
+      "valorUnitario": 100.00
+    }
+  ]
+}
+

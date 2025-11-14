@@ -1,0 +1,28 @@
+{
+  "numeroVenda": "V002",
+  "clienteId": "00000000-0000-0000-0000-000000000001",
+  "clienteNome": "Cliente Teste",
+  "filialId": "00000000-0000-0000-0000-000000000002",
+  "filialNome": "Filial Teste",
+  "itens": [
+    {
+      "produtoId": "00000000-0000-0000-0000-000000000003",
+      "produtoNome": "Produto A",
+      "quantidade": 3,
+      "valorUnitario": 50.00
+    },
+    {
+      "produtoId": "00000000-0000-0000-0000-000000000004",
+      "produtoNome": "Produto B",
+      "quantidade": 2,
+      "valorUnitario": 75.00
+    },
+    {
+      "produtoId": "00000000-0000-0000-0000-000000000005",
+      "produtoNome": "Produto C",
+      "quantidade": 1,
+      "valorUnitario": 200.00
+    }
+  ]
+}
+

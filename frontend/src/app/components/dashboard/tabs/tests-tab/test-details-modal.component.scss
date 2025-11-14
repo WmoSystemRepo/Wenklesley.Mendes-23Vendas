@@ -1,0 +1,257 @@
+@import 'styles/variables';
+@import 'styles/mixins';
+
+.test-details-modal {
+  min-width: 600px;
+  max-width: 800px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  @include flex-between;
+  padding: $spacing-md;
+  border-bottom: 1px solid #e0e0e0;
+  
+  h2 {
+    @include flex-center;
+    gap: $spacing-sm;
+    margin: 0;
+    font-size: 20px;
+    
+    .type-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+      
+      &.type-unit {
+        color: $primary-color;
+      }
+      
+      &.type-integration {
+        color: $accent-color;
+      }
+      
+      &.type-bdd {
+        color: $warn-color;
+      }
+    }
+  }
+}
+
+mat-dialog-content {
+  padding: $spacing-lg;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.loading-content {
+  @include flex-center;
+  min-height: 200px;
+  
+  .loading-spinner {
+    @include flex-center;
+    flex-direction: column;
+    gap: $spacing-md;
+    
+    p {
+      margin: 0;
+      color: #666;
+    }
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.test-info-section {
+  h3 {
+    margin: 0 0 $spacing-sm 0;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .test-meta {
+    @include flex-center;
+    gap: $spacing-md;
+    margin-bottom: $spacing-md;
+    flex-wrap: wrap;
+    
+    .file-path {
+      @include flex-center;
+      gap: $spacing-xs;
+      color: #666;
+      font-size: 12px;
+      
+      mat-icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+  
+  .description {
+    margin: 0;
+    color: #555;
+    line-height: 1.6;
+  }
+}
+
+.scenarios-section {
+  h4 {
+    @include flex-center;
+    gap: $spacing-sm;
+    margin: 0 0 $spacing-md 0;
+    font-size: 16px;
+    color: #333;
+    
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+  
+  .scenarios-list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+  
+  .no-scenarios {
+    @include flex-center;
+    flex-direction: column;
+    gap: $spacing-sm;
+    padding: $spacing-lg;
+    color: #999;
+    text-align: center;
+    
+    mat-icon {
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+      color: #ccc;
+    }
+    
+    p {
+      margin: 0;
+      font-size: 14px;
+    }
+  }
+  
+  .scenario-card {
+    @include card;
+    transition: transform $transition-fast;
+    
+    &:hover {
+      transform: translateX(4px);
+    }
+    
+    .scenario-header {
+      @include flex-center;
+      gap: $spacing-sm;
+      margin-bottom: $spacing-sm;
+      
+      .scenario-icon {
+        color: $success-color;
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+      
+      .scenario-id {
+        font-size: 12px;
+        color: #999;
+        font-weight: 500;
+      }
+    }
+    
+    .scenario-description {
+      margin: 0 0 $spacing-sm 0;
+      color: #333;
+      font-weight: 500;
+    }
+    
+    .expected-result {
+      padding: $spacing-sm;
+      background-color: #f5f5f5;
+      border-radius: 4px;
+      border-left: 3px solid $primary-color;
+      
+      strong {
+        display: block;
+        margin-bottom: $spacing-xs;
+        color: #666;
+        font-size: 12px;
+      }
+      
+      span {
+        color: #333;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+.related-tests-section {
+  h4 {
+    @include flex-center;
+    gap: $spacing-sm;
+    margin: 0 0 $spacing-md 0;
+    font-size: 16px;
+    color: #333;
+    
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+  
+  .related-tests-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+  }
+}
+
+.no-data-content {
+  @include flex-center;
+  min-height: 200px;
+  
+  .no-data {
+    @include flex-center;
+    flex-direction: column;
+    gap: $spacing-md;
+    color: #999;
+    
+    mat-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+    }
+    
+    p {
+      margin: 0;
+    }
+  }
+}
+
+mat-dialog-actions {
+  padding: $spacing-md;
+  border-top: 1px solid #e0e0e0;
+}
+
+// Responsividade
+@media (max-width: $breakpoint-sm) {
+  .test-details-modal {
+    min-width: 100%;
+    max-width: 100%;
+  }
+}
+
