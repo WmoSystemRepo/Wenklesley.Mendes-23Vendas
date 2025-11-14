@@ -9,14 +9,14 @@ param(
 Write-Host "Executando testes com cobertura..." -ForegroundColor Cyan
 
 # Navegar para o diretório do projeto de testes
-$testProjectPath = "tests\UnitTests\UnitTests.csproj"
+$testProjectPath = "..\tests\UnitTests\UnitTests.csproj"
 if (-not (Test-Path $testProjectPath)) {
     Write-Host "ERRO: Projeto de testes não encontrado em $testProjectPath" -ForegroundColor Red
     exit 1
 }
 
 # Criar diretório de resultados se não existir
-$resultsDir = "tests\UnitTests\TestResults"
+$resultsDir = "..\tests\UnitTests\TestResults"
 if (-not (Test-Path $resultsDir)) {
     New-Item -ItemType Directory -Path $resultsDir -Force | Out-Null
 }
@@ -33,7 +33,7 @@ $testArgs = @(
     "/p:CoverletOutput=$resultsDir\coverage",
     "/p:ExcludeByAttribute=Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute",
     "/p:Exclude=[*.Tests]*,[*.Test]*",
-    "/p:IncludeDirectory=../../src"
+    "/p:IncludeDirectory=../src"
 )
 
 if ($Verbose) {

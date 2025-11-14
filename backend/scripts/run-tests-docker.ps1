@@ -7,6 +7,11 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+# Mudar para o diretório backend onde estão os arquivos docker-compose
+$scriptPath = Split-Path -Parent $MyInvocation.MyCommand.Path
+$backendPath = Join-Path $scriptPath ".."
+Push-Location $backendPath
+
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "  EXECUTAR TESTES NO DOCKER - 123VENDAS" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
@@ -166,9 +171,11 @@ $allPassed = ($results.Unit -and $results.Integration -and $results.Bdd) -or
 
 if ($allPassed) {
     Write-Host "`n[OK] Todos os testes executados com sucesso!" -ForegroundColor Green
+    Pop-Location
     exit 0
 } else {
     Write-Host "`n[FAIL] Alguns testes falharam. Verifique os resultados em $ResultsPath" -ForegroundColor Yellow
+    Pop-Location
     exit 1
 }
 

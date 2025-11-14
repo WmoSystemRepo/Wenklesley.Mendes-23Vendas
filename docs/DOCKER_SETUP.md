@@ -104,7 +104,7 @@ docker-compose up --build --force-recreate frontend
 
 ```powershell
 # Executar migrations na API
-docker-compose exec api dotnet ef database update --project /src/src/Infra --startup-project /src/src/Api
+docker-compose exec api dotnet ef database update --project /src/Infra --startup-project /src/Api
 
 # Acessar shell do frontend
 docker-compose exec frontend sh
@@ -129,7 +129,7 @@ npm start
 
 #### API
 ```powershell
-cd src/Api
+cd backend/src/Api
 dotnet run
 # Acesse http://localhost:5000
 ```
@@ -146,7 +146,7 @@ Para desenvolvimento com hot reload:
 2. Execute API e Frontend localmente:
    ```powershell
    # Terminal 1 - API
-   cd src/Api
+   cd backend/src/Api
    dotnet watch run
 
    # Terminal 2 - Frontend
@@ -170,7 +170,7 @@ ports:
 Verifique:
 1. API está rodando: `docker-compose ps`
 2. CORS está configurado em `appsettings.json`
-3. URL da API no frontend está correta (`frontend/src/app/services/api.service.ts`)
+3. URL da API no frontend está correta (`frontend/app/services/api.service.ts`)
 
 ### SQL Server não inicia
 
@@ -218,7 +218,7 @@ Variáveis configuradas no `docker-compose.yml`:
 ### Frontend
 
 O frontend usa a URL da API configurada em:
-- `frontend/src/app/services/api.service.ts` (baseUrl)
+- `frontend/app/services/api.service.ts` (baseUrl)
 
 Para produção, configure via variáveis de ambiente no Docker.
 

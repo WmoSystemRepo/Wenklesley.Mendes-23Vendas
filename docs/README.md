@@ -75,13 +75,14 @@ O projeto segue os princípios da **Clean Architecture** e **DDD**, com separaç
 
 ```
 123Vendas/
-├── src/
-│   ├── Api/                    # Controllers, Middlewares, DI, Swagger
-│   ├── Application/            # DTOs, Interfaces, Handlers, Validações
-│   ├── Domain/                 # Entidades, Agregados, VOs, Regras, Eventos
-│   ├── Infra/                  # EF Core, Repositórios, Migrations, Serilog
-│   └── Infra.IoC/              # Dependency Injection
-├── tests/
+├── backend/
+│   ├── src/
+│   │   ├── Api/                    # Controllers, Middlewares, DI, Swagger
+│   │   ├── Application/            # DTOs, Interfaces, Handlers, Validações
+│   │   ├── Domain/                 # Entidades, Agregados, VOs, Regras, Eventos
+│   │   ├── Infra/                  # EF Core, Repositórios, Migrations, Serilog
+│   │   └── Infra.IoC/              # Dependency Injection
+│   ├── tests/
 │   └── UnitTests/              # XUnit + Shouldly + Bogus + NSubstitute
 ├── Dockerfile
 ├── docker-compose.yml
@@ -109,7 +110,7 @@ O projeto segue os princípios da **Clean Architecture** e **DDD**, com separaç
    dotnet restore
    ```
 
-3. **Configure a connection string** no arquivo `src/Api/appsettings.json`:
+3. **Configure a connection string** no arquivo `backend/src/Api/appsettings.json`:
    ```json
    {
      "ConnectionStrings": {
@@ -120,14 +121,14 @@ O projeto segue os princípios da **Clean Architecture** e **DDD**, com separaç
 
 4. **Execute as migrations**
    ```bash
-   cd src/Infra
+   cd backend/src/Infra
    dotnet ef migrations add InitialCreate --startup-project ../Api
    dotnet ef database update --startup-project ../Api
    ```
 
 5. **Execute a API**
    ```bash
-   cd src/Api
+   cd backend/src/Api
    dotnet run
    ```
 
@@ -285,7 +286,7 @@ docker-compose down -v
 ### Criar nova migration
 
 ```bash
-cd src/Infra
+cd backend/src/Infra
 dotnet ef migrations add NomeDaMigration --startup-project ../Api
 ```
 

@@ -6,6 +6,11 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+# Mudar para o diretório backend onde estão os arquivos docker-compose
+$scriptPath = Split-Path -Parent $MyInvocation.MyCommand.Path
+$backendPath = Join-Path $scriptPath ".."
+Push-Location $backendPath
+
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "  DEMONSTRAÇÃO DE TESTES - 123VENDAS" -ForegroundColor Cyan
@@ -114,6 +119,10 @@ if ($testResult -eq 0) {
     Write-Host "========================================" -ForegroundColor Red
     Write-Host ""
     Write-Host "Verifique os resultados em: $ResultsPath" -ForegroundColor Yellow
+    Pop-Location
     exit 1
 }
+
+# Voltar ao diretório original
+Pop-Location
 

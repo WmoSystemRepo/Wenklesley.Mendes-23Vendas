@@ -2,6 +2,11 @@
 # Autor: Sistema de Testes
 # Data: 2025-11-14
 
+# Mudar para o diretório backend onde estão os arquivos docker-compose
+$scriptPath = Split-Path -Parent $MyInvocation.MyCommand.Path
+$backendPath = Join-Path $scriptPath ".."
+Push-Location $backendPath
+
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "  123Vendas - Parando Ambiente" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
@@ -41,4 +46,7 @@ Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Para iniciar novamente, execute: .\scripts\start-environment.ps1" -ForegroundColor Gray
 Write-Host ""
+
+# Voltar ao diretório original
+Pop-Location
 
